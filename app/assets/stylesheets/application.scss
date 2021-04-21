@@ -1,0 +1,490 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require jquery-ui
+ */
+
+ @import "bootstrap";
+ @import "bootstrap-datepicker3";
+
+ #raya-logo {
+    width: 3em;
+    object-fit: cover;
+    -webkit-animation: fade-in 3s;
+    animation: fade-in 3s;
+}
+
+
+.bg-dark {
+    background: linear-gradient(
+90deg
+, rgb(66, 94, 217) 0.01%, rgb(39, 41, 120) 100.01%);
+}
+
+select#employee_timesheet_project_name {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+//login page css start here 
+.col-md-4 {
+    flex: 0 0 33.3333333333%;
+    max-width: 33.3333333333%;
+    margin: 0px auto;
+}
+.form-signin
+{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading, .form-signin .checkbox
+{
+    margin-bottom: 10px;
+}
+.form-signin .checkbox
+{
+    font-weight: normal;
+}
+.form-signin .form-control
+{
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus
+{
+    z-index: 2;
+}
+
+input#sign_up_btn {
+    margin-top: 25px;
+}
+
+
+input#user_status {
+    margin: 0;
+    border-top-left-radius: 0px;
+    padding-top: 0px;
+    margin-top: 25px;
+}
+
+.form-signup input[type="password"] {
+    margin-bottom: 1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+input#user_email {
+    width: 90%;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 0px;
+    /* border-bottom-right-radius: 0px; */
+    margin-left: 10px;
+    margin-right: 0px auto;
+    padding-left: 10px;
+    /* margin-left: 17px; */
+}
+
+input#user_password {
+    width: 90%;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+button#sign_btn {
+    width: 90%;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+a#new_sign_id {
+    padding-left: 3px;
+    margin-left: 8px;
+}
+
+a#forget_password{
+    padding-left: 3px;
+    margin-left: 8px;
+}
+.form-signin input[type="password"]
+{
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+input.btn.btn-lg.btn-primary.btn-block {
+    margin-bottom: 20px;
+}
+
+strong.sub_id {
+    padding-left: 23px;
+}
+
+/* Signup Page start here */
+input#user_first_name {
+    width: 90%;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 0px;
+    /* border-bottom-right-radius: 0px; */
+    margin-left: 10px;
+    margin-right: 0px auto;
+    padding-left: 10px;
+    /* margin-left: 17px; */
+}
+
+input#user_last_name{
+    width: 90%;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 0px;
+    /* border-bottom-right-radius: 0px; */
+    margin-left: 10px;
+    margin-right: 0px auto;
+    padding-left: 10px;
+    /* margin-left: 17px; */
+}
+
+
+input#user_phone{
+    width: 90%;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 0px;
+    /* border-bottom-right-radius: 0px; */
+    margin-left: 10px;
+    margin-right: 0px auto;
+    padding-left: 10px;
+    /* margin-left: 17px; */
+}
+
+input#user_role{
+    width: 90%;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 0px;
+    /* border-bottom-right-radius: 0px; */
+    margin-left: 10px;
+    margin-right: 0px auto;
+    padding-left: 10px;
+    /* margin-left: 17px; */
+}
+
+input#user_password_confirmation{
+    width: 90%;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 0px;
+    /* border-bottom-right-radius: 0px; */
+    margin-left: 10px;
+    margin-right: 0px auto;
+    padding-left: 10px;
+    /* margin-left: 17px; */
+}
+
+input#user_status{
+    width: 90%;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 0px;
+    /* border-bottom-right-radius: 0px; */
+    margin-left: 10px;
+    margin-right: 0px auto;
+    padding-left: 10px;
+    /* margin-left: 17px; */
+}
+
+input#sign_up_btn {
+    width: 90%;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+input#forget_password_btn {
+    width: 90%;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+/* Signup Page end here */
+
+input#user_first_name {
+    width: 90%;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+.account-wall
+{
+    margin-top: 20px;
+    padding: 40px 0px 20px 0px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.5);
+}
+.login-title
+{
+    color: #555;
+    font-size: 18px;
+    font-weight: 400;
+    display: block;
+}
+.profile-img
+{
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.need-help
+{
+    margin-top: 10px;
+}
+.new-account
+{
+    display: block;
+    margin-top: 10px;
+}
+
+form.new_form_emp {
+    width: 90%;
+    padding-left: 10px;
+    margin-left: 10px;
+    //background-color: #f7f7f7;
+    // box-shadow: 0px 2px 50px rgb(0 0 0 / 50%);
+}
+//login page css end here 
+
+//from for attendance 
+
+// div#attendance_form {
+//     border: 2px solid #425ed9;
+//     padding-top: 10px;
+//     width: 80%;
+//     margin-left: 15%;
+// }
+
+div#attendance_form {
+    border: 2px solid #425ed9;
+    padding-top: 10px;
+    width: 45%;
+    margin-left: 15%;
+    box-shadow: 5px 0px 20px 0px;
+}
+
+div#attendance-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 2px;
+    margin-left: 0%;
+}
+
+div#btn_attendance {
+    width: 80%;
+    margin-left: 4%;
+    margin-bottom: 1%;
+}
+
+input#create_attendance_btn {
+    /*width: 43%;*/
+    width: 73%;
+}
+
+tr.attendance_tble {
+    background:linear-gradient(
+        90deg
+        , #425ed9 0.01%, #272978 100.01%);
+    color: #fff;
+}
+
+a.btn.btn-small.btn-new-attendance {
+    color: #fff;
+    background:linear-gradient(
+        90deg
+        , #425ed9 0.01%, #272978 100.01%);
+    border-color: #28a745;
+}
+
+a.btn.btn-small.btn-back-attendance {
+    color: #fff;
+    background:linear-gradient(
+        90deg
+        , #425ed9 0.01%, #272978 100.01%);
+    border-color: #28a745;
+}
+
+
+/* Project css start here */
+  
+div#project_form {
+    border: 2px solid #425ed9;
+    padding-top: 10px;
+    width: 45%;
+    margin-left: 15%;
+    box-shadow: 5px 0px 20px 0px;
+}
+
+div#project-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 2px;
+    margin-left: 0%;
+}
+
+div#btn_project {
+    width: 80%;
+    margin-left: 4%;
+    margin-bottom: 1%;
+}
+
+input#create_project_btn {
+    /*width: 43%;*/
+    width: 60%;
+}
+
+tr.project_tble {
+    background:linear-gradient(
+        90deg
+        , #425ed9 0.01%, #272978 100.01%);
+    color: #fff;
+}
+
+a.btn.btn-small.btn-new-project {
+    color: #fff;
+    background:linear-gradient(
+        90deg
+        , #425ed9 0.01%, #272978 100.01%);
+    border-color: #28a745;
+}
+
+a.btn.btn-small.btn-back-project {
+    color: #fff;
+    background:linear-gradient(
+        90deg
+        , #425ed9 0.01%, #272978 100.01%);
+    border-color: #28a745;
+}
+/* Project css end here */
+
+
+/*Full calendar css file start here*/
+
+.fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #425ed9;
+    color: #fff;
+}
+
+.fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #425ed9;
+    border: #fff;
+}
+
+button.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
+    background-color: #425ed9;
+    border: #fff;
+}
+
+button.fc-today-button.fc-button.fc-button-primary {
+    background-color: #425ed9;
+    border: #fff;
+}
+
+button.fc-prev-button.fc-button.fc-button-primary {
+    background: linear-gradient( 
+                90deg
+ , #425ed9 0.01%, #272978 100.01%);
+}
+
+button.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
+    background: linear-gradient( 
+90deg
+ , #425ed9 0.01%, #272978 100.01%);
+}
+
+button.fc-timeGridDay-button.fc-button.fc-button-primary {
+    background: linear-gradient( 
+90deg
+ , #425ed9 0.01%, #272978 100.01%);
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+    color: #fff;
+    color: var(--fc-button-text-color,#fff);
+    /* background-color: #1a252f; */
+    /* background-color: var(--fc-button-active-bg-color,#1a252f); */
+    border-color: #151e27;
+    border-color: var(--fc-button-active-border-color,#151e27);
+}
+
+button.fc-timeGridWeek-button.fc-button.fc-button-primary.fc-button-active {
+    background: linear-gradient( 
+90deg
+ , #425ed9 0.01%, #272978 100.01%);
+}
+
+.fc .fc-button-primary:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus, .fc .fc-button-primary:not(:disabled):active:focus {
+    background: linear-gradient( 
+90deg
+ , #425ed9 0.01%, #272978 100.01%);
+}
+/*Full calendar css file end here*/
+
+
+#calendar {
+    max-width: 1100px;
+    margin: 40px auto;
+  }
+
+  .btn.btn-lg.btn-primary.btn-block {
+    width: 22%;
+    margin-left: 15%;
+    margin-top: 2%;
+    background: linear-gradient( 
+90deg
+ , #425ed9 0.01%, #272978 100.01%);
+}
+
+a.btn_edit_back {
+    color: #fff;
+}
+
+input#employee_time_id {
+    background: linear-gradient( 
+90deg
+ , #425ed9 0.01%, #272978 100.01%);
+    color: #fff;
+}
+
+div#new_emp_sheet {
+    width: 11%;
+    margin-left: 0%;
+    margin-top: 1%;
+    background: linear-gradient( 
+90deg
+ , #425ed9 0.01%, #272978 100.01%);
+}
+
+.nw-prjt {
+    margin-left: 15%;
+}
+
+.nw-attd {
+    margin-left: 15%;
+}

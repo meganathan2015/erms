@@ -1,0 +1,86 @@
+<%= form_with(model: employee_timesheet, local: true) do |f| %>
+  <% if employee_timesheet.errors.any? %>
+    <div id="error_explanation">
+      <h5><%= pluralize(employee_timesheet.errors.count, "error") %> prohibited this employee_timesheet from being saved:</h5>
+
+      <ul>
+      <% employee_timesheet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <form class="new_form_emp">
+
+  <div class="form-row">
+
+  <div class="form-group col-4">
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.text_field :title, class: "form-control", placeholder: "Title", required: true %>
+  </div>
+  
+  <div class="form-group col-4">
+    <%= f.text_field :description, class: "form-control", placeholder: "Description", required: true %>
+  </div>
+  
+  <div class="form-group col-4">
+    <%= f.select(:project_name, Project.all.collect {|p| [p.project_name, p.project_name]}, {:prompt => 'Select a project', class: "form-control", required: true}) %>
+  </div>
+  </div>
+
+  <div class="form-row">
+
+  <div class="form-group col-4">
+    <% today_date = Time.now %>
+    <% current_date = today_date.strftime("%Y-%m-%d") %>
+    <%= f.text_field :time_sheet_date, value: current_date, class: "form-control", placeholder: "Time Sheet Date", required: true %>
+  </div>
+  
+  <div class="form-group col-4">
+    <%= f.text_field :spend_of_time, class: "form-control", placeholder: "Spend_of_time", required: true %>
+  </div>
+
+  <div class="form-group col-4">
+
+    <%= f.text_field :time_from, class: "form-control", placeholder: "Time From", required: true %>
+  </div>
+  </div>
+
+  <div class="form-row">
+
+  <div class="form-group col-4">
+    <%= f.text_field :time_to, class: "form-control", placeholder: "Time To", required: true %>
+  </div>
+  
+  <div class="form-group col-4">
+    <%= f.text_field :break_from, class: "form-control", placeholder: "Break From", required: true %>
+  </div>
+  
+  <div class="form-group col-4">
+    <%= f.text_field :break_to, class: "form-control", placeholder: "Break To", required: true %>
+  </div>
+  </div>
+
+ 
+  <div class="form-row">
+
+  <div class="form-group col-4">
+    <%= f.text_field :total_break_time, class: "form-control", placeholder: "Total Break Time", required: true %>
+  </div>
+  
+  <div class="form-group col-4">
+   <%= f.text_field :office_total_hours, class: "form-control", placeholder: "Office Total Hours", required: true %>
+  </div>
+  
+  <div class="form-group col-4">
+    <%= f.text_field :status, class: "form-control", placeholder: "status", required: true %>
+  </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create Timesheet", id: "employee_time_id" %>
+  </div>
+  </form>
+
+<% end %>

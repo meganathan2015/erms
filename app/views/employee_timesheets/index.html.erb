@@ -1,0 +1,67 @@
+<p id="notice"><%= notice %></p>
+
+<% if @employee_timesheets.present? %>
+
+<h5>Employee Timesheets</h5>
+
+<% not_employee = current_user.role %>
+<table class="table table-bordered">
+  <thead>
+    <tr class="attendance_tble">
+      <th>Sl.no</th>
+      <th>Username</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Project Name</th>
+      <th>Timesheet Date</th>
+      <th>Spend of Time</th>
+      <th>Time From</th>
+      <th>Time To</th>
+      <th>Break From</th>
+      <th>Break To</th>
+      <th>Total Break Time</th>
+      <th>Office Total Hours</th>
+      <th>Status</th>
+      <th colspan="5">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% count = 0 %>
+    <% user_role = User.roles[:manager] %>
+    <% @employee_timesheets.each do |employee_timesheet| %>
+      <tr>
+        <td><%= count = count + 1 %></td>
+        <% user_name = User.find(employee_timesheet.user_id) %>
+        <td><%= user_name.first_name %></td>
+        <td><%= employee_timesheet.title %></td>
+        <td><%= employee_timesheet.description %></td>
+        <td><%= employee_timesheet.project_name %></td>
+        <td><%= employee_timesheet.time_sheet_date %></td>
+        <td><%= employee_timesheet.spend_of_time%></td>
+        <td><%= employee_timesheet.time_from.strftime("%H:%M") %></td>
+        <td><%= employee_timesheet.time_to.strftime("%H:%M") %></td>
+        <td><%= employee_timesheet.break_from.strftime("%H:%M") %></td>
+        <td><%= employee_timesheet.break_to.strftime("%H:%M") %></td>
+        <td><%= employee_timesheet.total_break_time.strftime("%H:%M") %></td>
+        <td><%= employee_timesheet.office_total_hours.strftime("%H:%M") %></td>
+        <% if employee_timesheet.status == 1%>
+        <td>Active</td>
+        <% else %>
+        <td>InActive</td>
+        <% end %>
+        <td><%= link_to 'Show', employee_timesheet %></td>
+        <td><%= link_to 'Edit', edit_employee_timesheet_path(employee_timesheet) %></td>
+        <td><%= link_to 'Destroy', employee_timesheet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+    <% end %>
+  </tbody> 
+</table>
+
+<br>
+<%= link_to 'New Employee Timesheet', new_employee_timesheet_path, class: "btn btn-small btn-new-attendance" %>
+<% else %>
+<div> No Records </div>
+<%= link_to 'New Employee Timesheet', new_employee_timesheet_path, class: "btn btn-small btn-new-attendance" %>
+
+<% end %>

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<h4>Dashboards</h4>
+
+<% if current_user.role == "admin" %>
+<div style="width:800px;height: 800px;">
+  <%= column_chart  @user_single_chart, xtitle: "Day/Date", ytitle: "Spend of time" %>
+</div>
+<% else %>
+<div style="width:800px;height: 800px;">
+  <%= column_chart  @all_user_chart, xtitle: "Day/Date", ytitle: "Spend of time" %>
+</div>
+<% end %>
+

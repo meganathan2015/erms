@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<% if @projects.present? %>
+
+<h5>Project</h5>
+
+<table class="table table-bordered">
+  <thead>
+    <tr class="project_tble">
+      <th>Sl.no</th>
+      <th>Project Name</th>
+      <th>Repoting To</th>
+      <th>Status</th>
+      <th colspan="5">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% count = 0 %>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= count = count + 1 %></td>
+        <td><%= project.project_name %></td>
+        <td><%= project.reporting_manager%></td>
+        <% if project.status == 1 %>
+        <td>Active</td>
+        <% else %>
+        <td>InActive</td>
+        <% end %>
+        <td><%= link_to 'Show', project %></td>
+        <td><%= link_to 'Edit', edit_project_path(project) %></td>
+        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody> 
+</table>
+
+<br>
+
+<%= link_to 'New Project', new_project_path, class: "btn btn-small btn-new-project" %>
+
+<% else %>
+<div> You do not have any pending leaves </div>
+<%= link_to 'New Project', new_project_path, class: "btn btn-small btn-new-project" %>
+
+<% end %>

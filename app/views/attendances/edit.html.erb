@@ -1,0 +1,7 @@
+<h1>Editing Attendance</h1>
+
+<%= render 'form', attendance: @attendance %>
+<div class="btn btn-lg btn-primary btn-block" >
+    <%= link_to 'Show', @attendance, class: "btn_edit_back"  %> |
+    <%= link_to 'Back', attendances_path, class: "btn_edit_back"  %>
+</div>

@@ -1,0 +1,46 @@
+<%= form_with(model: attendance, local: true) do |form| %>
+  <% if attendance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
+
+      <ul>
+      <% attendance.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div id="attendance_form">
+
+  <div class="form-row" id="attendance-row">
+      <div class="form-group col-6">
+      <%= form.hidden_field :user_id, value: current_user.id %>
+      <%= form.date_field :start_date, class: "form-control datepicker", placeholder: "Start Date", required: true, id: "start_date_attendance" %>
+      </div>
+      <div class="form-group col-6">
+      <%= form.date_field :end_date, class: "form-control", placeholder: "End Date", required: true, id: "end_date_attendance" %>
+      </div>
+  </div>
+
+  <div class="form-row" id="attendance-row">
+      
+      <div class="form-group col-6">
+      <%= form.text_field :reason_for_leave, class: "form-control", placeholder: "Reason for leave", required: true, id: "reason_attendance" %>
+      </div>
+
+      <div class="form-group col-6">
+      <%user_role = User.roles[:manager]%>
+      <%= form.hidden_field :manager_id, value: user_role %>
+      </div>
+
+  </div>
+
+  <div class="actions", id="btn_attendance" >
+    <%= form.submit "Create Attendance", class: "btn btn-lg btn-primary btn-block", id: "create_attendance_btn"%>
+  </div>
+  </div>
+
+  <% end %>
+
+  

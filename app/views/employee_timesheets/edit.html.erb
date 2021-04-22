@@ -1,6 +1,12 @@
-<h1>Editing Employee Timesheet</h1>
+<div class="nw-attd">
+    <h5>Editing Employee Timesheet</h5>
+</div>
 
 <%= render 'form', employee_timesheet: @employee_timesheet %>
 
-<%= link_to 'Show', @employee_timesheet %> |
-<%= link_to 'Back', employee_timesheets_path %>
+<div class="btn btn-lg btn-primary btn-block" >
+<%= link_to 'Show', @employee_timesheet, class: "btn_edit_back" %> |
+<%= link_to 'Back', employee_timesheets_path, class: "btn_edit_back" %>
+</div>
+
+

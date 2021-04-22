@@ -1,6 +1,8 @@
-<% if @attendances.present? %>
-
 <h5>Attendances</h5>
+
+<% if @attendances.present? %>
+<%= link_to 'New Attendance', new_attendance_path, class: "btn btn-small btn-new-attendance", id: "att_main_new_btn" %>
+
 
 <% not_employee = current_user.role %>
 <table class="table table-bordered">
@@ -53,7 +55,6 @@
 
 <br>
 
-<%= link_to 'New Attendance', new_attendance_path, class: "btn btn-small btn-new-attendance" %>
 
 <% else %>
 <div> You do not have any pending leaves </div>

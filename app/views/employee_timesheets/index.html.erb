@@ -2,6 +2,8 @@
 
 <% if @employee_timesheets.present? %>
 
+<%= link_to 'New Employee Timesheet', new_employee_timesheet_path, class: "btn btn-small btn-new-attendance" %>
+
 <h5>Employee Timesheets</h5>
 
 <% not_employee = current_user.role %>
@@ -59,7 +61,6 @@
 </table>
 
 <br>
-<%= link_to 'New Employee Timesheet', new_employee_timesheet_path, class: "btn btn-small btn-new-attendance" %>
 <% else %>
 <div> No Records </div>
 <%= link_to 'New Employee Timesheet', new_employee_timesheet_path, class: "btn btn-small btn-new-attendance" %>

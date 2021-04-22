@@ -1,0 +1,35 @@
+<%= form_with(model: policy, local: true) do |form| %>
+  <% if policy.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(policy.errors.count, "error") %> prohibited this policy from being saved:</h2>
+
+      <ul>
+      <% policy.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div id="project_form">
+
+      <div class="form-row" id="project-row">
+          <div class="form-group col-6">
+          <%= form.text_field :name, class: "form-control", placeholder: "Name", required: true, id: "project_name_id" %>
+          </div>
+      </div>
+
+      <div class="form-row" id="project-row">
+          
+          <div class="form-group col-6">
+          <%= form.file_field :attachment, class: "form-control", placeholder: "Attachment", required: true, id: "attachment_pdf" %>
+          </div>
+
+      </div>
+
+      <div class="actions", id="btn_project" >
+        <%= form.submit "Create Policy", class: "btn btn-lg btn-primary btn-block", id: "create_project_btn"%>
+      </div>
+  </div>
+<% end %>
+

@@ -11,76 +11,75 @@
     </div>
   <% end %>
 
-  <form class="new_form_emp">
+  <div id="timesheet_new_form">
 
-  <div class="form-row">
-
-  <div class="form-group col-4">
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <%= f.text_field :title, class: "form-control", placeholder: "Title", required: true %>
-  </div>
+  <div class="form-row" id="attendance-row">
+      <div class="form-group col-6">
+      <%= f.hidden_field :user_id, value: current_user.id %>
+          <%= f.text_field :title, class: "form-control", placeholder: "Title", required: true %>
+      </div>
   
-  <div class="form-group col-4">
-    <%= f.text_field :description, class: "form-control", placeholder: "Description", required: true %>
+      <div class="form-group col-6">
+          <%= f.text_field :description, class: "form-control", placeholder: "Description", required: true %>
+      </div>
   </div>
+
+  <div class="form-row" id="attendance-row">
+    
+      <div class="form-group col-6">
+          <%= f.select(:project_name, Project.all.collect {|p| [p.project_name, p.project_name]}, {:prompt => 'Select a project', class: "form-control", required: true}) %>
+      </div>
+
+      <div class="form-group col-6">
+          <% today_date = Time.now %>
+          <% current_date = today_date.strftime("%Y-%m-%d") %>
+          <%= f.text_field :time_sheet_date, value: current_date, class: "form-control", placeholder: "Time Sheet Date", required: true %>
+      </div>
+  </div>
+
+  <div class="form-row" id="attendance-row">
+      <div class="form-group col-6">
+          <%= f.text_field :spend_of_time, class: "form-control", placeholder: "Spend_of_time", required: true %>
+      </div>
   
-  <div class="form-group col-4">
-    <%= f.select(:project_name, Project.all.collect {|p| [p.project_name, p.project_name]}, {:prompt => 'Select a project', class: "form-control", required: true}) %>
-  </div>
-  </div>
-
-  <div class="form-row">
-
-  <div class="form-group col-4">
-    <% today_date = Time.now %>
-    <% current_date = today_date.strftime("%Y-%m-%d") %>
-    <%= f.text_field :time_sheet_date, value: current_date, class: "form-control", placeholder: "Time Sheet Date", required: true %>
-  </div>
-  
-  <div class="form-group col-4">
-    <%= f.text_field :spend_of_time, class: "form-control", placeholder: "Spend_of_time", required: true %>
+      <div class="form-group col-6">
+          <%= f.text_field :time_from, class: "form-control", placeholder: "Time From", required: true %> 
+      </div>
   </div>
 
-  <div class="form-group col-4">
+  <div class="form-row" id="attendance-row">
+      <div class="form-group col-6">
+          <%= f.text_field :time_to, class: "form-control", placeholder: "Time To", required: true %>
+      </div>
 
-    <%= f.text_field :time_from, class: "form-control", placeholder: "Time From", required: true %>
-  </div>
+      <div class="form-group col-6">
+          <%= f.text_field :break_from, class: "form-control", placeholder: "Break From", required: true %>
+      </div>        
   </div>
 
-  <div class="form-row">
-
-  <div class="form-group col-4">
-    <%= f.text_field :time_to, class: "form-control", placeholder: "Time To", required: true %>
-  </div>
-  
-  <div class="form-group col-4">
-    <%= f.text_field :break_from, class: "form-control", placeholder: "Break From", required: true %>
-  </div>
-  
-  <div class="form-group col-4">
-    <%= f.text_field :break_to, class: "form-control", placeholder: "Break To", required: true %>
-  </div>
+  <div class="form-row" id="attendance-row">
+      
+      <div class="form-group col-6">
+          <%= f.text_field :break_to, class: "form-control", placeholder: "Break To", required: true %>
+      </div>
+      <div class="form-group col-6">
+          <%= f.text_field :total_break_time, class: "form-control", placeholder: "Total Break Time", required: true %>
+      </div>
   </div>
 
  
-  <div class="form-row">
-
-  <div class="form-group col-4">
-    <%= f.text_field :total_break_time, class: "form-control", placeholder: "Total Break Time", required: true %>
-  </div>
+  <div class="form-row" id="attendance-row">
+      <div class="form-group col-6">
+          <%= f.text_field :office_total_hours, class: "form-control", placeholder: "Office Total Hours", required: true %>
+      </div>
   
-  <div class="form-group col-4">
-   <%= f.text_field :office_total_hours, class: "form-control", placeholder: "Office Total Hours", required: true %>
-  </div>
-  
-  <div class="form-group col-4">
-    <%= f.text_field :status, class: "form-control", placeholder: "status", required: true %>
-  </div>
+      <div class="form-group col-6">
+          <%= f.text_field :status, class: "form-control", placeholder: "status", required: true %>
+      </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Create Timesheet", id: "employee_time_id" %>
+  <div class="actions", id="btn_attendance" >
+    <%= f.submit "Create Timesheet", class: "btn btn-lg btn-primary btn-block", id: "create_timesheet_btn"%>
   </div>
-  </form>
-
+  </div>
 <% end %>

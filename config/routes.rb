@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :policies
   resources :projects
   resources :attendances do 
     collection do

@@ -19,6 +19,9 @@ gem 'bootstrap', '~> 4.2.1'
 
 gem 'jquery-rails'
 
+gem 'carrierwave', '~> 2.0'
+
+
 gem 'devise'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

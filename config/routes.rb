@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :policies
   resources :projects
+  resources :reports, only: [:index]
+
   resources :attendances do 
     collection do
       get :approve_to_leave

@@ -3,7 +3,8 @@ class EmployeeTimesheetsController < ApplicationController
 
   # GET /employee_timesheets or /employee_timesheets.json
   def index
-    @employee_timesheets = EmployeeTimesheet.all
+    # @employee_timesheets = EmployeeTimesheet.all
+    @employee_timesheets = EmployeeTimesheet.all.where(user_id: current_user.id)
   end
 
   # GET /employee_timesheets/1 or /employee_timesheets/1.json
@@ -25,7 +26,7 @@ class EmployeeTimesheetsController < ApplicationController
 
     respond_to do |format|
       if @employee_timesheet.save
-        format.html { redirect_to @employee_timesheet, notice: "Employee timesheet was successfully created." }
+        format.html { redirect_to employee_timesheets_url, notice: "Employee timesheet was successfully created." }
         format.json { render :show, status: :created, location: @employee_timesheet }
       else
         format.html { render :new, status: :unprocessable_entity }

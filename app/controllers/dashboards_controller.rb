@@ -7,8 +7,8 @@ class DashboardsController < ApplicationController
    begin_start_month = month_start.strftime("%Y-%m-%d")
    month_end = Time.now.at_end_of_month
    end_of_month = month_end.strftime("%Y-%m-%d")
-   @user_single_chart = EmployeeTimesheet.select("project_name,time_sheet_date,sum(spend_of_time)").where("time_sheet_date >= ? and time_sheet_date <= ?",begin_start_month, end_of_month).group(:project_name,:time_sheet_date).sum(:spend_of_time)
-   @emp_sheet = EmployeeTimesheet.select("project_name,time_sheet_date,sum(spend_of_time)").where("user_id=? and time_sheet_date=?",current_user.id,"2021-04-13").group(:project_name,:time_sheet_date).sum(:spend_of_time)
+   @user_single_chart = EmployeeTimesheet.select("user_id,project_name,time_sheet_date,sum(spend_of_time)").where("time_sheet_date between ? and  ?",begin_start_month, end_of_month).group(:project_name,:time_sheet_date,:user_id).sum(:spend_of_time)
+   # @emp_sheet = EmployeeTimesheet.select("project_name,time_sheet_date,sum(spend_of_time)").where("user_id=? and time_sheet_date=?",current_user.id,"2021-04-13").group(:project_name,:time_sheet_date).sum(:spend_of_time)
    @all_user_chart = EmployeeTimesheet.select("project_name,time_sheet_date,sum(spend_of_time)").where("user_id=?",current_user.id).group(:project_name,:time_sheet_date).sum(:spend_of_time)
 
   end

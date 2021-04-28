@@ -25,7 +25,7 @@ class PoliciesController < ApplicationController
 
     respond_to do |format|
       if @policy.save
-        format.html { redirect_to @policy, notice: "Policy was successfully created." }
+        format.html { redirect_to policies_url, notice: "Policy was successfully created." }
         format.json { render :show, status: :created, location: @policy }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class PoliciesController < ApplicationController
   def update
     respond_to do |format|
       if @policy.update(policy_params)
-        format.html { redirect_to @policy, notice: "Policy was successfully updated." }
+        format.html { redirect_to policies_url, notice: "Policy was successfully updated." }
         format.json { render :show, status: :ok, location: @policy }
       else
         format.html { render :edit, status: :unprocessable_entity }

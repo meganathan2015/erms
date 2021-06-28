@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+  <% user_name = User.find(@attendance.user_id) %>
+    <p>Leave application from <%= user_name.first_name %>!</p>
+    <p>
+    Leave details<br>
+    ---------------------
+    </p>
+    <p>From : <%= @attendance.start_date.strftime("%d-%m-%Y") %></p>
+    <p>To : <%= @attendance.end_date.strftime("%d-%m-%Y") %></p>
+    <p>No of days: <%= @attendance.no_of_days %></p>
+    <p>Reason For Leave: <%= @attendance.reason_for_leave %></p>
+    <p>Status: <%= @attendance.status %></p>
+     
+    <%= link_to "<button>Click here approval or not</button>".html_safe, @url, user_id: @admin.id%>
+
+  </body>
+</html>

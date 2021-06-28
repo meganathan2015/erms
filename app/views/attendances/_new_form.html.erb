@@ -1,0 +1,64 @@
+
+<%= form_for(@attendance, :url => create_attendance_attendances_path(@attendance), remote: true) do |form| %>
+
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3 id="myModalLabel"></h3>
+</div>
+<div class="modal-body">
+
+    <% if @attendance.errors.any? %>
+        <div id="error_explanation">
+        <h2><%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
+
+        <ul>
+        <% @attendance.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+        </ul>
+        </div>
+    <% end %>
+   
+    <form>
+          <div class="form-group">
+            <%= form.hidden_field :user_id, value: current_user.id %>
+            <label for="recipient-name" class="col-form-label">Start Date</label>
+            <%= form.date_field :start_date, class: "form-control datepicker", placeholder: "Start Date", required: true, id: "start_date_attendance" %>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">End Date</label>
+            <%= form.date_field :end_date, class: "form-control", placeholder: "End Date", required: true, id: "end_date_attendance" %>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Reason for leave</label>
+            <%= form.text_field :reason_for_leave, class: "form-control", placeholder: "Reason for leave", required: true, id: "reason_attendance" %>
+            <%user_role = User.roles[:manager]%>
+            <%= form.hidden_field :manager_id, value: user_role %>
+          </div>
+    </form>
+
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+
+  <%= link_to "<button>Apply Leave</button>".html_safe, {class: "btn btn-lg btn-primary btn-block", id: "create_attendance_btn", data: { confirm: 'Are you sure?' }}%>
+</div>
+<% end %>
+
+
+
+<script type="text/javascript">
+$("#create_attendance_btn").click(function(){
+    alert(1111);
+    var start_date = $("#start_date_attendance").val();
+    var end_date = $("#end_date_attendance").val();
+    var reason = $("#reason_attendance").val();
+    if (start_date == "" || end_date == "" || reason == "")
+        {
+        alert("Please fill the details...");
+        return false;
+        }
+});
+</script>

@@ -1,46 +1,70 @@
-<%= form_with(model: attendance, local: true) do |form| %>
-  <% if attendance.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
+<%= form_with model: @attendance, id: 'new_attendance', local: false do |form| %>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel"></h3>
+  </div>
+  <div class="modal-body">
+  <% if @attendance.errors.any? %>
+  <div id="error_explanation">
+  <h2><%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
 
-      <ul>
-      <% attendance.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+  <ul>
+  <% @attendance.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+  <% end %>
+  </ul>
+  </div>
   <% end %>
 
-  <div id="attendance_form">
-
-  <div class="form-row" id="attendance-row">
-      <div class="form-group col-6">
-      <%= form.hidden_field :user_id, value: current_user.id %>
-      <%= form.date_field :start_date, class: "form-control datepicker", placeholder: "Start Date", required: true, id: "start_date_attendance" %>
-      </div>
-      <div class="form-group col-6">
-      <%= form.date_field :end_date, class: "form-control", placeholder: "End Date", required: true, id: "end_date_attendance" %>
-      </div>
+  <form>
+          <div class="form-group">
+            <%= form.hidden_field :user_id, value: current_user.id %>
+            <label for="recipient-name" class="col-form-label">From</label>
+            <%= form.date_field :start_date, class: "form-control datepicker", placeholder: "Please Select Date", required: true, id: "start_date_attendance" %>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">To</label>
+            <%= form.date_field :end_date, class: "form-control", placeholder: "End Date", required: true, id: "end_date_attendance" %>
+            <%= form.hidden_field :no_of_days, id: "no_of_days_attendance"%>
+            </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Reason for leave</label>
+            <%= form.text_field :reason_for_leave, class: "form-control", placeholder: "Reason for leave", required: true, id: "reason_attendance" %>
+            <%user_role = User.roles[:manager]%>
+            <%= form.hidden_field :manager_id, value: user_role %>
+          </div>
   </div>
-
-  <div class="form-row" id="attendance-row">
-      
-      <div class="form-group col-6">
-      <%= form.text_field :reason_for_leave, class: "form-control", placeholder: "Reason for leave", required: true, id: "reason_attendance" %>
-      </div>
-
-      <div class="form-group col-6">
-      <%user_role = User.roles[:manager]%>
-      <%= form.hidden_field :manager_id, value: user_role %>
-      </div>
-
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true" id = "cancel_attendance_btn">Close</button>
+    <%= form.submit "Apply Leave", class: "btn btn-lg apply_leave_button", id: "create_attendance_btn", data: { confirm: 'Are you sure?' }%>
   </div>
-
-  <div class="actions", id="btn_attendance" >
-    <%= form.submit "Create Attendance", class: "btn btn-lg btn-primary btn-block", id: "create_attendance_btn"%>
-  </div>
-  </div>
+  </form>
 
   <% end %>
 
   
+  <script type="text/javascript">
+  $(document).on("change", function() {
+        var firstDay = new Date($( '#start_date_attendance' ).val() ),
+        lastDay = new Date($( '#end_date_attendance' ).val() ),
+        daysDiff = calcHolidays( firstDay,lastDay );
+   if ( isNaN( daysDiff ) )
+         $( '#no_of_days_attendance' ).val( "" );
+   else
+        $( '#no_of_days_attendance' ).val( daysDiff );
+  });
+
+
+  function calcHolidays( dDate1, dDate2 ) {
+      var weeks, dateDiff, weekDay1, weekDay2;
+      if ( dDate2 < dDate1 ) return -1;
+      weekDay1 = dDate1.getDay(),
+      weekDay2 = dDate2.getDay();
+      weeks = Math.floor(( dDate2.getTime() - dDate1.getTime() ) / 604800000);
+      if ( weekDay1 <= weekDay2 )
+      dateDiff = ( weeks * 5 ) + ( weekDay2 - weekDay1 );
+      else
+      dateDiff = (( weeks + 1 ) * 5) - ( weekDay1 - weekDay2 );
+      return ( dateDiff + 1 );
+}
+    </script>

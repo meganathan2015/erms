@@ -1,0 +1,35 @@
+<%= form_with(model: @user_managements, url: {controller: "user_managements", action: "upload_profile_image"}, method: "post", local: true) do |f| %>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"></h3>
+      </div>
+      <div class="modal-body">
+      <% if @user_managements.errors.any? %>
+      <div id="error_explanation">
+      <h2><%= pluralize(@user_managements.errors.count, "error") %> prohibited this timesheet from being saved:</h2>
+    
+      <ul>
+      <% @user_managements.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+      </ul>
+      </div>
+      <% end %>
+    
+      <form>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Profile Pictures</label>
+                <%= f.hidden_field :id, value: params[:id] %>
+                <%= f.file_field :profile_pictures, class: "form-control" %>
+              </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" id = "cancel_timesheet_btn">Close</button>
+        <%= f.submit "Upload Image", class: "btn btn-lg apply_leave_button", id: "create_timesheet_new_btn",data: { confirm: 'Are you sure?' }%>
+        </div>
+      </form>
+    
+      <% end %>
+    
+    
+      

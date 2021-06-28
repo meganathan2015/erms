@@ -1,85 +1,80 @@
-<%= form_with(model: employee_timesheet, local: true) do |f| %>
-  <% if employee_timesheet.errors.any? %>
-    <div id="error_explanation">
-      <h5><%= pluralize(employee_timesheet.errors.count, "error") %> prohibited this employee_timesheet from being saved:</h5>
-
-      <ul>
-      <% employee_timesheet.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_with model: @employee_timesheet, id: 'add_timesheet', local: false do |f| %>
+  <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel"></h3>
     </div>
-  <% end %>
-
-  <div id="timesheet_new_form">
-
-  <div class="form-row" id="attendance-row">
-      <div class="form-group col-6">
-      <%= f.hidden_field :user_id, value: current_user.id %>
-          <%= f.text_field :title, class: "form-control", placeholder: "Title", required: true %>
-      </div>
+    <div class="modal-body">
+    <% if @employee_timesheet.errors.any? %>
+    <div id="error_explanation">
+    <h2><%= pluralize(@employee_timesheet.errors.count, "error") %> prohibited this timesheet from being saved:</h2>
   
-      <div class="form-group col-6">
-          <%= f.text_field :description, class: "form-control", placeholder: "Description", required: true %>
+    <ul>
+    <% @employee_timesheet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+    <% end %>
+    </ul>
+    </div>
+    <% end %>
+  
+    <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Description</label>
+              <%= f.hidden_field :user_id, value: current_user.id %>
+              <%= f.text_area :description, class: "form-control", placeholder: "Description", required: true %>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Project Name</label>
+              <%= f.select(:project_name, Project.all.collect {|p| [p.project_name, p.project_name]}, {:prompt => 'Select a project', class: "form-control", required: true}) %>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Date</label>
+              <% today_date = Time.now %>
+              <% current_date = today_date.strftime("%Y-%m-%d") %>
+              <%= f.text_field :time_sheet_date, class: "form-control datepicker", placeholder: "Select Date", required: true %>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Start Time</label>
+              <%= f.text_field :time_from, class: "form-control", placeholder: "Start Time HH:MM", required: true, id: "start_time_data" %>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">End Time</label>
+              <%= f.text_field :time_to, class: "form-control", placeholder: "End Time HH:MM", required: true, id: "end_time_data" %>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Total spent time</label>
+              <%= f.text_field :spend_of_time, class: "form-control", placeholder: "Total spent time", required: true, id: "total_spent_time_data" %>
+            </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true" id = "cancel_timesheet_btn">Close</button>
+      <%= f.submit "Create Timesheet", class: "btn btn-lg apply_leave_button", id: "create_timesheet_new_btn",data: { confirm: 'Are you sure?' }%>
       </div>
-  </div>
-
-  <div class="form-row" id="attendance-row">
+    </form>
+  
+    <% end %>
+  
+  
     
-      <div class="form-group col-6">
-          <%= f.select(:project_name, Project.all.collect {|p| [p.project_name, p.project_name]}, {:prompt => 'Select a project', class: "form-control", required: true}) %>
-      </div>
 
-      <div class="form-group col-6">
-          <% today_date = Time.now %>
-          <% current_date = today_date.strftime("%Y-%m-%d") %>
-          <%= f.text_field :time_sheet_date, value: current_date, class: "form-control", placeholder: "Time Sheet Date", required: true %>
-      </div>
-  </div>
-
-  <div class="form-row" id="attendance-row">
-      <div class="form-group col-6">
-          <%= f.text_field :spend_of_time, class: "form-control", placeholder: "Spend_of_time", required: true %>
-      </div>
+<script type="text/javascript">
+$(document).on("change", function() {
+      date_from = $("#employee_timesheet_time_sheet_date").val();
+      start_time_data = $("#start_time_data").val();
+      end_time_data = $("#end_time_data").val();
   
-      <div class="form-group col-6">
-          <%= f.text_field :time_from, class: "form-control", placeholder: "Time From", required: true %> 
-      </div>
-  </div>
+      if ( date_from && start_time_data && end_time_data ){
+        $.ajax({
+          url: "/employee_timesheets/employee_retrieve_data",
+          type: "POST",
+          data: {"date" : date_from, "start_time" : start_time_data, "end_time" : end_time_data},
+          dataType: "json",
+          success: function(data) {
+              $('#total_spent_time_data').val(data.total_time);
+            }
+          });
+      }
 
-  <div class="form-row" id="attendance-row">
-      <div class="form-group col-6">
-          <%= f.text_field :time_to, class: "form-control", placeholder: "Time To", required: true %>
-      </div>
+});
 
-      <div class="form-group col-6">
-          <%= f.text_field :break_from, class: "form-control", placeholder: "Break From", required: true %>
-      </div>        
-  </div>
 
-  <div class="form-row" id="attendance-row">
-      
-      <div class="form-group col-6">
-          <%= f.text_field :break_to, class: "form-control", placeholder: "Break To", required: true %>
-      </div>
-      <div class="form-group col-6">
-          <%= f.text_field :total_break_time, class: "form-control", placeholder: "Total Break Time", required: true %>
-      </div>
-  </div>
-
- 
-  <div class="form-row" id="attendance-row">
-      <div class="form-group col-6">
-          <%= f.text_field :office_total_hours, class: "form-control", placeholder: "Office Total Hours", required: true %>
-      </div>
-  
-      <div class="form-group col-6">
-          <%= f.text_field :status, class: "form-control", placeholder: "status", required: true %>
-      </div>
-  </div>
-
-  <div class="actions", id="btn_attendance" >
-    <%= f.submit "Create Timesheet", class: "btn btn-lg btn-primary btn-block", id: "create_timesheet_btn"%>
-  </div>
-  </div>
-<% end %>
+</script>

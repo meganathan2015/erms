@@ -3,12 +3,20 @@ class AttendancesController < ApplicationController
 
   # GET /attendances or /attendances.json
   def index
-    user_role = current_user.role 
-    
-    if user_role == "admin" || user_role == "manager"
-       @attendances = Attendance.all
+    # user_role = current_user.role 
+    if params[:user_id]
+      user_role = User.find(params[:user_id])
+    else
+      user_role = User.find(current_user.id)
+    end
+    if user_role.role == "admin" || user_role.role == "manager"
+      # @user_managements = UserManagement.order(:first_name).page params[:page]
+      @attendances = Attendance.order("start_date desc").page params[:page]
     elsif 
-       @attendances = Attendance.all.where(user_id: current_user.id)
+      @page = 10
+      @offset = 0
+      @attendances = Attendance.where(user_id: current_user.id).order(start_date: :desc).page params[:page]
+      # @attendances = Attendance.all.where(user_id: current_user.id).order(start_date: :desc)
     end   
   end
 
@@ -28,16 +36,13 @@ class AttendancesController < ApplicationController
 
   # POST /attendances or /attendances.json
   def create
-    start_date = params[:attendance][:start_date]
-    end_date = params[:attendance][:end_date]
-    count_no_of_days = (end_date.to_date..start_date.to_date).count
-
     @attendance = Attendance.new(attendance_params)
-    @attendance.no_of_days = count_no_of_days
     @attendance.status = "pending"
     @attendance
     respond_to do |format|
       if @attendance.save
+        AttendanceMailer.new_apply_leave_email(@attendance).deliver
+
         format.html { redirect_to attendances_url, notice: "Attendance was successfully created." }
         format.json { render :show, status: :created, location: @project }
       else
@@ -81,25 +86,39 @@ class AttendancesController < ApplicationController
 
   def approve_to_leave
     attendance = Attendance.find(params[:id])
-    status = params[:rejected].present? ? params[:rejected] : "Approved"
-    status = params[:cancel]
-    if status == "Approved"
-        if attendance.update_attributes(:status => status,
-                                        :reason_for_rejection => "")
-          flash[:notice] = "Leave Approved successfully"
-          redirect_to leave_to_approve_attendances_url
-        end
-    elsif status == "Cancel"
+    status = params[:rejected]
+    case status
+     
+    when "Approved"
       if attendance.update_attributes(:status => status,
-                                   :reason_for_rejection => "")
-          flash[:notice] = "Leave Cancel successfully"
-          redirect_to leave_to_approve_attendances_url
+        :reason_for_rejection => params[:message])
+
+      render json: {:success => true}
+      AttendanceMailer.new_apply_leave_email(attendance).deliver
+
+      else
+      render json: {:success => false}
+      # redirect_to leave_to_approve_attendances_url
       end
-    else
+    when "Cancelled"
       if attendance.update_attributes(:status => status,
-                                      :reason_for_rejection => "Manager Rejected this leave")
-        flash[:notice] = "Leave Rejected successfully"
-        redirect_to leave_to_approve_attendances_url
+        :reason_for_rejection => params[:message])
+ 
+      render json: {:success => true}
+      AttendanceMailer.new_apply_leave_email(attendance).deliver
+
+      else
+      render json: {:success => false}
+      # redirect
+    end
+  else 
+      if attendance.update_attributes(:status => status,
+        :reason_for_rejection => params[:message])
+      render json: {:success => true}
+      AttendanceMailer.new_apply_leave_email(attendance).deliver
+      else
+      render json: {:success => false}
+      # redirect_to leave_to_approve_attendances_url
       end
     end
   end
@@ -114,6 +133,6 @@ class AttendancesController < ApplicationController
     def attendance_params
       # params.require(:attendance).permit(:id, :user_id, :start_date, :end_date, :no_of_days, :reason_for_leave, :manager_id, :status, :reason_for_rejection)
 
-      params.fetch(:attendance, {}).permit(:id, :user_id, :start_date, :end_date, :reason_for_leave, :manager_id, :reason_for_rejection)
+      params.fetch(:attendance, {}).permit(:id, :user_id, :start_date, :end_date, :no_of_days, :reason_for_leave, :manager_id, :reason_for_rejection)
     end
 end

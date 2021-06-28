@@ -1,0 +1,33 @@
+<%= form_with(model: @user_photo_changes, url: {controller: "user_managements", action: "upload_profile_image"}, method: "post", local: true) do |f| %>
+        <% if @user_photo_changes.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@user_photo_changes.errors.count, "error") %> prohibited this user management from being saved:</h2>
+      
+            <ul>
+            <% @user_photo_changes.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+      
+        <div id="project_form">
+      
+            <div class="form-row" id="project-row">
+                
+                <div class="form-group col-6" id="up_photo_id">
+                    <%= f.hidden_field :id, value: params[:id] %>
+                    <%= f.file_field :profile_pictures, class: "form-control" %>
+                </div>
+      
+            </div>
+      
+            <div class="actions", id="btn_project" >
+              <%= f.submit "Update Photo", class: "btn btn-lg btn-primary btn-block", id: "create_project_btn"%>
+            </div>
+        </div>
+<% end %>
+      
+      
+    
+      

@@ -1,0 +1,85 @@
+<% if current_user && current_user.role == "admin" %>
+<h3 class="user_mgmnt">User Managements</h3>
+<%= link_to 'Add User', new_user_management_path, class: "btn btn-small btn-new-attendance", id: "add_user_mgmnt", :remote => true %>
+<%= paginate @user_managements %>
+<% if @user_managements.present? %>
+<table class="table table-bordered" id="user_mgmnt_tble_format">
+  <thead>
+    <tr class="attendance_tble">
+      <th>Sl.no</th>
+      <th>First Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Date of Birth</th>
+      <th>Date of Joining</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% count = 0 %>
+    <% @user_managements.each do |user_managements| %>
+      <% if user_managements.role != 1 %>
+      <tr>
+        <td><%= count = count + 1 %></td>
+        <td><%= link_to user_managements.first_name, user_list_user_managements_path(:id => user_managements.id) %></td>
+        <td><%= user_managements.email %></td>
+        <td><%= user_managements.phone %></td>
+        <td><%= user_managements.dob %></td>
+        <td><%= user_managements.doj %></td>
+        <td><%= user_managements.status %></td>
+        <% if user_managements.status == "Active" %>
+          <td><%= link_to 'Inactive User', user_managements, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
+        <% else %>
+          <td><%= link_to 'Active User', active_user_update_user_managements_path(user_managements), class: 'btn btn-primary', data: { confirm: 'Are you sure?' }%></td>
+        <% end %>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody> 
+</table>
+<% else %>
+<p>No Record</p>
+<% end %>
+<% else %>
+<% if @user_mgmt.present? %>
+ <table class="table table-bordered">
+  <thead>
+    <tr class="attendance_tble">
+      <th>Sl.no</th>
+      <th>First Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Date of Birth</th>
+      <th>Date of Joining</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% count = 0 %>
+    <% @user_mgmt.each do |user_managements| %>
+      <tr>
+        <td><%= count = count + 1 %></td>
+        <td><%= link_to user_managements.first_name %></td>
+        <td><%= user_managements.email %></td>
+        <td><%= user_managements.phone %></td>
+        <td><%= user_managements.dob %></td>
+        <td><%= user_managements.doj %></td>
+      </tr>
+    <% end %>
+  </tbody> 
+</table>
+<% else %>
+<p>No Record</p>
+<% end %>
+<% end %>
+<br>
+
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+

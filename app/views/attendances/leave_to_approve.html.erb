@@ -1,63 +1,56 @@
-<h5>Attendances</h5>
+<%= link_to 'Attendance List', attendances_path, class: "btn btn-small btn-new-attendance" %>
 
-<% if @attendances.present? %>
-<%= link_to 'New Attendance', new_attendance_path, class: "btn btn-small btn-new-attendance", id: "att_main_new_btn" %>
+<div id='calendar'></div>
 
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
+<script>
 
-<% not_employee = current_user.role %>
-<table class="table table-bordered">
-  <thead>
-    <tr class="attendance_tble">
-      <th>Sl.no</th>
-      <th>Username</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>No of days</th>
-      <th>Reason for Leave</th>
-      <th>Manager Name</th>
-      <th>Status</th>
-      <th colspan="5">Actions</th>
-    </tr>
-  </thead>
+document.addEventListener('DOMContentLoaded',function draw() {
 
-  <tbody>
-    <% count = 0 %>
-    <% user_role = User.roles[:manager] %>
-    <% manager_name = User.find_by_role(user_role)%>
-    <% @attendances.each do |attendance| %>
-      <tr>
-        <td><%= count = count + 1 %></td>
-        <% user_name = User.find(attendance.user_id) %>
-        <td><%= user_name.first_name %></td>
-        <td><%= attendance.start_date %></td>
-        <td><%= attendance.end_date %></td>
-        <td><%= attendance.no_of_days %></td>
-        <td><%= attendance.reason_for_leave%></td>
-        <td><%= manager_name.first_name + " " + manager_name.last_name%></td>
-        <td><%= attendance.status%></td>
-        <% if attendance.status == "pending" && (not_employee == "manager" || not_employee == "admin") %>
-              <td><%= link_to "<button>Approve</button>".html_safe, :controller => "attendances", :action => "approve_to_leave", :id => attendance %></td>
-              <td><%= link_to "<button>Reject</button>".html_safe, :controller => "attendances", :action => "approve_to_leave", :id => attendance, :rejected => "Rejected" %></td>
-            <% elsif attendance.status == "Approved" && (not_employee != "employee")%>
-              <td><%= link_to "<button>Reject</button>".html_safe, :controller => "attendances", :action => "approve_to_leave", :id => attendance, :rejected => "Rejected" %></td>
-              <td></td>
-            <% elsif attendance.status == "Approved"  && (not_employee == "employee")%>
-            <td><%= link_to "<button>Cancel</button>".html_safe, :controller => "attendances", :action => "approve_to_leave", :id => attendance, :cancel => "Cancel" %></td>
-            <td></td>
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          },
+          
+          
+          events: [
+            <% @attendances.each do |a|%>
+              <% if a.status == "Approved"%>
+            {
+              title:'<%= a.status %>',
+              start:'<%= a.start_date%>',
+              end:'<%= a.end_date%>',
+              color: "green",
+            },
+            <% elsif a.status == "pending" %>
+            {
+              title:'<%= a.status %>',
+              start:'<%= a.start_date%>',
+              end:'<%= a.end_date%>',
+              color: "yellow",
+              textColor: "black",
+            },
             <% else %>
-              <td></td>
-              </td></td>
-        <% end %>
-        </tr>
-    <% end %>
-  </tbody> 
-</table>
+            {
+              title:'<%= a.status %>',
+              start:'<%= a.start_date%>',
+              end:'<%= a.end_date%>',
+              color: "red",
+            },
+            <% end %>
+            <% end %>
+           
+          ],
+        });
+        calendar.render();
+      });
 
-<br>
+     </script>
 
 
-<% else %>
-<div> You do not have any pending leaves </div>
-<%= link_to 'New Attendance', new_attendance_path %>
 
-<% end %>

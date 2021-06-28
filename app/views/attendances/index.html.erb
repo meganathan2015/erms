@@ -1,56 +1,132 @@
-<%= link_to 'Attendance List', leave_to_approve_attendances_path, class: "btn btn-small btn-new-attendance" %>
+<div class="view_calendar_list">
 
-<div id='calendar'></div>
+<h3 class="attendance_date">Attendance</h3>
 
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
-<script>
+<p>
+<%= link_to 'View Calendar', leave_to_approve_attendances_path, class: "btn btn-small btn-new-attendance", id: "calendar_id_list" %>
+<% if current_user.role == 'employee' %>
+<%= link_to 'Apply Leave', new_attendance_path, class: "btn btn-small btn-new-attendance", id: "att_main_new_btn", :remote => true %>
+<% end %>
+</p>
 
-document.addEventListener('DOMContentLoaded',function draw() {
+<% if current_user.role == 'employee' %>
 
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          initialDate: '2021-04-07',
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          
-          
-          events: [
-            <% @attendances.each do |a|%>
-              <% if a.status == "Approved"%>
-            {
-              title:'<%= a.status %>',
-              start:'<%= a.start_date%>',
-              end:'<%= a.end_date%>',
-              color: "green",
-            },
-            <% elsif a.status == "pending" %>
-            {
-              title:'<%= a.status %>',
-              start:'<%= a.start_date%>',
-              end:'<%= a.end_date%>',
-              color: "yellow",
-              textColor: "black",
-            },
+<% end %>
+
+
+<% if @attendances.present? %>
+
+<% not_employee = current_user.role %>
+<table class="table table-bordered" id="atten_table_id">
+  <thead>
+    <tr class="attendance_tble">
+      <th>Sl.no</th>
+      <th>Username</th>
+      <th>From</th>
+      <th>To</th>
+      <th>No of days</th>
+      <th>Reason for Leave</th>
+      <th>Status</th>
+      <th colspan="5">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% count = 0 %>
+    <% user_role = User.roles[:manager] %>
+    <% manager_name = User.find_by_role(user_role)%>
+    <% @attendances.each do |attendance| %>
+      <tr>
+        <td><%= count = count + 1 %></td>
+        <% user_name = User.find(attendance.user_id) %>
+        <td><%= user_name.first_name %></td>
+        <td><%= attendance.start_date.strftime("%d-%m-%Y") %></td>
+        <td><%= attendance.end_date.strftime("%d-%m-%Y") %></td>
+        <td><%= attendance.no_of_days %></td>
+        <td><%= attendance.reason_for_leave%></td>
+        <td><%= attendance.status%></td>
+        <% if attendance.status == "pending" && (not_employee == "manager" || not_employee == "admin") %>
+            <td><%= link_to "<button>Approve</button>".html_safe, {:controller => 'attendances', :action => 'approve_to_leave'}, :onclick=>"myFunction('#{ attendance.id}','Approved'); return false;"%></td>
+            <td><%= link_to "<button>Reject</button>".html_safe, {:controller => 'attendances', :action => 'approve_to_leave'}, :onclick=>"myFunction('#{ attendance.id}','Rejected'); return false;"%></td>
+            <% elsif attendance.status == "Approved" && (not_employee != "employee")%>
+            <td></td>
+            <td></td>
+            <% elsif attendance.status == "Approved"  && (not_employee == "employee")%>
+            <td>
+            <%= link_to "<button>Cancel Request</button>".html_safe, {:controller => 'attendances', :action => 'approve_to_leave'}, :onclick=>"myFunction('#{ attendance.id}','Cancelled'); return false;"%>
+            </td>
+            <td></td>
+            <% elsif attendance.status == "Rejected"  && (not_employee == "admin")%>
+            <td></td>
+            <td></td>
+            <% elsif attendance.status == "Cancelled"  && (not_employee == "admin")%>
+            <td></td>
+            <td></td>
+            <% elsif attendance.status == "pending"  && (not_employee == "employee")%>
+            <td>
+            <%= link_to "<button>Cancel Request</button>".html_safe, {:controller => 'attendances', :action => 'approve_to_leave'}, :onclick=>"myFunction('#{ attendance.id}','Cancelled'); return false;"%>
+            </td>
             <% else %>
-            {
-              title:'<%= a.status %>',
-              start:'<%= a.start_date%>',
-              end:'<%= a.end_date%>',
-              color: "red",
-            },
-            <% end %>
-            <% end %>
-           
-          ],
-        });
-        calendar.render();
-      });
+              <td></td>
+              </td></td>
+        <% end %>
+        </tr>
+    <% end %>
+  </tbody> 
+</table>
 
-     </script>
+<%= paginate @attendances %>
+
+<br>
+<% else %>
+<p class="time_add_page">No Records</p>
+<% end %>
+</div>
 
 
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+function myFunction(id,status) {
+  if (status == "Approved"){
+    confirm("Are you sure?");
+    var message = "Approved";
+  } else if (status == "Rejected")
+  {
+    confirm("Are you sure?");
+    var message = "Rejected"
+  }
+ else
+  {
+  confirm("Are you sure?");
+  var message = "Cancelled";
+ }
+	if (message != null && message != "") {
+	
+    $.ajax({
+          url: "/attendances/approve_to_leave?id=" + id + "&rejected="+status+"&message=" + message,
+          type: "GET",
+          dataType: "json",
+          success: function(data) {
+            if (data.success==true)
+              {
+                location.reload();
+              }
+            else{
+              alert("Leave not able to Cancel...");
+            }
+        }
+          });
+	} else {
+		return false;
+	}
+}
+
+
+
+</script>

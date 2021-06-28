@@ -1,0 +1,4 @@
+$("#myModal").find(".modal-content").html("<%= j render 'form_create_mgmnt', locals: {user_create_management: @user_create_management} %>");
+$("#myModal").modal('show');
+
+<td><%#= link_to user_managements.first_name, new_user_mgmnt_user_managements_path, class: "add_user_select_mgmnt", :remote => true, :onclick=>"myFunction('#{user_managements.id}'); return false;" %></td>

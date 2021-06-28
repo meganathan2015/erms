@@ -1,54 +1,182 @@
-       
 <% if user_signed_in? %>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">
-        <img src="../../assets/Raya_Logo.51fd7761.png" alt="" id="raya-logo">
-      </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="/">Home
-                    <span class="sr-only">(current)</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/employee_timesheets">Employee Timesheet</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/attendances" id="attedance_id">Attendance</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="">Team</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/projects">Project</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/policies">Policy</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/reports">Report</a>
-                </li>
-              </ul>
-              <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="../../assets/avatar-default-icon.png" width="40" height="40" class="rounded-circle">
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href=""><%= current_user.first_name%></a><strong class="sub_id">[<%= current_user.role%>]</strong>
-                        <a class="dropdown-item" href="/dashboards">Dashboard</a>
-                        <a class="dropdown-item" href="/users/edit">Edit Profile</a>
-                        <a class="dropdown-item" <%= link_to 'Log out', destroy_user_session_path, method:  :delete, class: "sign_out" %></a>
-                        </div>
-                    </li>   
-              </ul>
-              
+  <% if current_user.role == "admin"%>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="/home">
+          <img src="../../assets/Raya_Logo.51fd7761.png" alt="" id="raya-logo">
+        </a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/dashboards">Dashboard
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/user_managements">User Management</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/employee_timesheets" id="attedance_id">Timesheet</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/attendances" id="attedance_id">Attendance</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/projects">Project</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/policies">Policy</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/reports">Report</a>
+                  </li>
+                </ul>
+                <ul class="navbar-nav">
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <% profile_image = UserManagement.find_by_email(current_user.email) %>
+                              <% if profile_image && profile_image.profile_pictures.url %>
+                              <%= image_tag profile_image.profile_pictures.url, :alt => "Admin", :id => "raya-logo", :class =>"rounded-circle", width: "150" unless profile_image.profile_pictures.url.nil? %>
+                              <% else %>
+                              <img src="../../assets/avatar-default-icon.png" alt="" id="raya-logo">
+                              <% end %>
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="dropdown-item" ><%= current_user.first_name%></a><strong class="sub_id">[<%= current_user.role%>]</strong>
+                          <a class="dropdown-item" <%= link_to 'Change Photo', edit_photo_user_user_managements_path(current_user.id)%></a>   
+                          <a class="dropdown-item" <%= link_to 'Log out', destroy_user_session_path, method:  :delete, class: "sign_out" %></a>
+                          </div>
+                      </li>   
+                </ul>
+                
+              </div>
             </div>
+    </nav>
+
+<style>
+        .nav-link {
+            color: green;
+        }
+  
+        .nav-item>a:hover {
+            color: green;
+        }
+  
+        /*code to change background color*/
+        .navbar-nav>.active>a {
+            color: green;
+        }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+  $('li.active').removeClass('active');
+  $('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+});
+</script>
+
+
+  <% else %>
+
+  <div class="sidebar">
+          <div class="logo_content">
+            <div class="logo">
+              <i class='bx bxl-apple'></i>
+              <div class="logo_name">Time Tracker</div>
+            </div>
+              <i class='bx bx-menu' id="btn" ></i>
           </div>
-  </nav>
+            <ul class="nav_list">
+              <li>
+                <a href="/employee_timesheets">
+                <i class='bx bx-time-five'></i>
+                <span class="links_name">Timesheet</span>
+                </a>
+                <span class="tooltip">Timesheet</span>
+              </li>
+              <li>
+                <a href="/projects">
+                <i class='bx bx-book-add'></i>
+                <span class="links_name">Projects</span>
+                </a>
+                <span class="tooltip">Projects</span>
+              </li>
+              <li>
+                <a href="/policies">
+                <i class='bx bx-edit-alt'></i>
+                <span class="links_name">Company Policy</span>
+                </a>
+                <span class="tooltip">Company Policy</span>
+              </li>
+              <li>
+                <a href="/attendances">
+                <i class='bx bx-calendar'></i>
+                <span class="links_name">Attendance</span>
+                </a>
+                <span class="tooltip">Attendance</span>
+              </li>
+
+            </ul>
+
+  
+            <div class="profile_content">
+              <div class="profile">
+                <div class="profile_details">
+                      <div class="dropdown" id="user_side_photo_id">
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="drop_menu_profiles" style="margin: -10px 0; display: flex; flex-direction: row; ">
+                              <% profile_image = UserManagement.find_by_email(current_user.email) %>
+                              <% if profile_image && profile_image.profile_pictures.url %>
+                              <%= image_tag profile_image.profile_pictures.url, :alt => "Admin", :class =>"rounded-circle", width: "150" unless profile_image.profile_pictures.url.nil? %>
+                              <% elsif profile_image && profile_image.profile_pictures.url.nil? %>
+                              <img src="../../assets/avatar-default-icon.png" alt="" id="raya-logo">
+                              <% else %>
+                              <img src="../../assets/avatar-default-icon.png" alt="" id="raya-logo">
+                              <% end %>
+                          </button>
+                          
+                          <ul class="dropdown-menu" id="menu_side_id">
+                              <li class="profile_edit_data">
+                                  <%= link_to(edit_password_user_user_managements_path(current_user.id)) do %>
+                                      <i class="fa fa-pencil"></i>
+                                      Change Password
+                                  <% end %>
+                              </li>
+                              <li>
+                                  <%= link_to(edit_photo_user_user_managements_path(current_user.id)) do %>
+                                      <i class="fa fa-pencil"></i>
+                                      Change Photo
+                                  <% end %>   
+                              </li>
+                          </ul>
+                        
+                      </div>
+                      <div class="name_job">
+                                  <div class="name"><%= current_user.first_name %></div>
+                                  <div class="job"><%= current_user.role.capitalize()%></div>
+                      </div>
+              </div>
+                      <%= link_to destroy_user_session_path, method:  :delete, id: "log_out" do %>
+                        <i class='bx bx-log-out' id="log_out"></i>
+                      <% end %>
+            </div>
+           
+    </div>
+   
+<script>
+var btn = document.querySelector("#btn");
+var sidebar = document.querySelector(".sidebar");
+
+btn.onclick = function(){
+sidebar.classList.toggle("active");
+}
+
+</script>
+
+  <% end %>
 <% end %>
+
+
+

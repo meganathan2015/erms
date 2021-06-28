@@ -1,0 +1,170 @@
+<div class="row gutters-sm">
+            <div class="col-md-4 mb-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <%= image_tag @user_managements.profile_pictures.url, :alt => "Admin", :class =>"rounded-circle", width: "150" unless @user_managements.profile_pictures.url.nil? %>
+                    <div class="mt-3">
+                      <h4><%= @user_managements.first_name + " " + @user_managements.last_name %></h4>
+                      <p class="text-secondary mb-1">Full Stack Developer</p>
+                      <p class="text-muted font-size-sm">Chennai</p>
+                      <% if current_user.role == "employee" %>
+                        <%= link_to 'Change', class: "btn_edit_back", id: @user_managements.id, :remote => true  %> |
+                        <%= link_to 'Delete', class: "btn_edit_back"  %><br>
+                      <% end %>
+                      <%= link_to(edit_user_user_managements_path(params[:id]), class: 'btn btn-primary edit_user_mgmnt_check') do %>
+                        <i class="fa fa-pencil"></i>
+                        Edit Profile
+                      <% end %>
+                      
+                      <%= link_to(edit_password_user_user_managements_path(params[:id]), class: 'btn btn-primary change_password_user_mgmnt_check') do %>
+                        <i class="fa fa-pencil"></i>
+                        Change Password
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Employee No</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.emp_code %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">First Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.first_name %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Father Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.last_name %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Mother Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%=  @user_managements.mother_name %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Gender</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.gender %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Blood Group</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.bg_group %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Date of Birth</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.dob %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Date of Joining</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.doj %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Phone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%=  @user_managements.phone %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Pan No</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= image_tag @user_managements.pan_details.url, :size => "260x180" unless @user_managements.pan_details.url.nil? %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Aadhar Details</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= image_tag @user_managements.aadhar_details.url, :size => "260x180" unless @user_managements.aadhar_details.url.nil? %>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Address</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= @user_managements.address%>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Status</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= @user_managements.status%>
+                    </div>
+                  </div>
+                  <hr>
+
+                </div>
+              </div>
+
+            
+                
+
+
+
+            </div>
+          </div>
+
+
+
+
+       <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+          </div>
+        </div>
+
+        

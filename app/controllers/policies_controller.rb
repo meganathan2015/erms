@@ -3,7 +3,7 @@ class PoliciesController < ApplicationController
 
   # GET /policies or /policies.json
   def index
-    @policies = Policy.all
+    @policies = Policy.all.order(:name).page params[:page]
   end
 
   # GET /policies/1 or /policies/1.json
@@ -22,7 +22,6 @@ class PoliciesController < ApplicationController
   # POST /policies or /policies.json
   def create
     @policy = Policy.new(policy_params)
-
     respond_to do |format|
       if @policy.save
         format.html { redirect_to policies_url, notice: "Policy was successfully created." }
@@ -64,6 +63,6 @@ class PoliciesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def policy_params
-      params.require(:policy).permit(:name, :attachment)
+      params.require(:policy).permit(:name, :description, :attachment)
     end
 end

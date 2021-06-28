@@ -10,17 +10,35 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery-ui
+//= require jquery3
+//= require jquery-ui/widgets/datepicker
 //= require rails-ujs
 //= require activestorage
 //= require bootstrap-datepicker
-//= require jquery-ui
 //= require highcharts
 //= require Chart.bundle
 //= require chartkick
-//= require jquery3
 //= require popper
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
 
+// $(document).ready(function(){
+//     $('#employee_timesheet_time_sheet_date').datepicker({
+//       format: 'dd-mm-yyyy',
+//       startDate: '-10y',
+//       endDate: '+0d'
+//     });
+//   });
 
+$(document).ready(function () { 
+  $(document).on('focus', '#employee_timesheet_time_sheet_date', function () {
+      $(this).datepicker({
+          format: 'yyyy-mm-dd',
+          startDate: '-10y',
+          endDate: '+0d',
+          yearRange: "-90:+0"
+      });
+  });
+});

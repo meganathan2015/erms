@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_061321) do
+ActiveRecord::Schema.define(version: 2021_06_08_132010) do
 
   create_table "attendances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -28,18 +28,12 @@ ActiveRecord::Schema.define(version: 2021_04_22_061321) do
 
   create_table "employee_timesheets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "title"
     t.string "description"
     t.string "project_name"
     t.date "time_sheet_date"
-    t.decimal "spend_of_time", precision: 10, scale: 2
     t.timestamp "time_from"
     t.timestamp "time_to"
-    t.timestamp "break_from"
-    t.timestamp "break_to"
-    t.timestamp "total_break_time"
-    t.timestamp "office_total_hours"
-    t.integer "status", default: 0
+    t.timestamp "spend_of_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_employee_timesheets_on_user_id"
@@ -47,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_061321) do
 
   create_table "policies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.string "description"
     t.string "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,10 +49,35 @@ ActiveRecord::Schema.define(version: 2021_04_22_061321) do
 
   create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "project_name"
+    t.string "description"
     t.string "reporting_manager"
-    t.integer "status"
+    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_managements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "emp_code"
+    t.string "mother_name"
+    t.string "gender"
+    t.string "phone"
+    t.string "pan_details"
+    t.string "aadhar_details"
+    t.string "education_details"
+    t.string "experience_details"
+    t.string "address"
+    t.string "profile_pictures"
+    t.string "bg_group"
+    t.date "dob"
+    t.date "doj"
+    t.string "status"
+    t.integer "role"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -75,7 +95,6 @@ ActiveRecord::Schema.define(version: 2021_04_22_061321) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

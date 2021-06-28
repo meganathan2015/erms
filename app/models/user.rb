@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum role: { super_admin: 0, admin: 1, manager: 2, employee: 3 }
+  
+
 
   has_many :employee_timesheets
 

@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
-    @projects = Project.all
+    @projects = Project.all.order(:project_name).page params[:page]
   end
 
   # GET /projects/1 or /projects/1.json
@@ -22,9 +22,9 @@ class ProjectsController < ApplicationController
   # POST /projects or /projects.json
   def create
     @project = Project.new(project_params)
-
     respond_to do |format|
-      if @project.save
+      if @project
+        project = Project.create(project_name: params[:project][:project_name], description: params[:project][:description],status: "Active", reporting_manager: params[:project][:reporting_manager])
         format.html { redirect_to projects_url, notice: "Project was successfully created." }
         format.json { render :show, status: :created, location: @project }
       else
@@ -64,6 +64,6 @@ class ProjectsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def project_params
-      params.fetch(:project, {}).permit(:id, :project_name, :reporting_manager, :status)
+      params.fetch(:project, {}).permit(:id, :project_name, :description, :reporting_manager, :status)
     end
 end

@@ -11,27 +11,61 @@
     </div>
   <% end %>
   <div id="project_form">
-
   <div class="form-row" id="project-row">
-      <div class="form-group col-6">
+      <div class="form-group col-12">
       <%= form.text_field :project_name, class: "form-control", placeholder: "Project Name", required: true, id: "project_name_id" %>
       </div>
-      <div class="form-group col-6">
-      <%= form.text_field :reporting_manager, class: "form-control", placeholder: "Reporting Manager", required: true, id: "reporting_manager_project" %>
+  </div>
+  <div class="form-row" id="project-row">
+
+      <div class="form-group col-12">
+          <%= form.text_area :description, class: "form-control", placeholder: "Description", required: true, id: "project_name_id" %>
       </div>
+      
   </div>
 
   <div class="form-row" id="project-row">
-      
-      <div class="form-group col-6">
-      <%= form.text_field :status, class: "form-control", placeholder: "Status", required: true, id: "status_project" %>
+  <% if params[:id] %>
+      <% status_type = Project.find(params[:id]) %>
+      <div class="form-group col-12">
+          <%= form.select :status, options_for_select(["Active", "Inactive"], :selected => status_type.status? ? status_type.status : " " ),  {class: "form-control", required: true} %>
       </div>
 
-  </div>
 
+      <% mgr = "manager" %>
+      <% manager_role = User.all.where(role: mgr)%>
+      <div class="form-group col-12">
+          <%= form.select(:reporting_manager, manager_role.collect {|p| [p.first_name, p.first_name]}, {:prompt => 'Select A Reporting Manager', class: "form-control", :selected => status_type.reporting_manager? ? status_type.reporting_manager : " ", required: true,id: "reporting_manager_project"}) %>
+      </div>
+  <% else %>
+      <% mgr = "manager" %>
+      <% manager_role = User.all.where(role: mgr)%>
+      <div class="form-group col-12">
+          <%= form.select(:reporting_manager, manager_role.collect {|p| [p.first_name, p.first_name]}, {:prompt => 'Select A Reporting Manager', class: "form-control", required: true,id: "reporting_manager_project"}) %>
+      </div>
+  <% end %>
+  </div>
+  
+  <% if params[:action] != "edit" %>
   <div class="actions", id="btn_project" >
     <%= form.submit "Create Project", class: "btn btn-lg btn-primary btn-block", id: "create_project_btn"%>
   </div>
+  <% else %>
+  <div class="actions", id="btn_project" >
+    <%= form.submit "Update Project", class: "btn btn-lg btn-primary btn-block", id: "create_project_btn"%>
+  </div>
+  <% end %>
   </div>
 
 <% end %>
+
+
+<script type="text/javascript">
+$("#create_project_btn").click(function(){
+      swal({
+        title: "Project was successfully created.",
+        icon: "success",
+        button: "Ok",
+    })
+});
+</script>

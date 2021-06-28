@@ -16,7 +16,17 @@ class ReportsController < ApplicationController
    @all_user_chart = EmployeeTimesheet.select("project_name,time_sheet_date,sum(spend_of_time)").where("user_id=?",current_user.id).group(:project_name,:time_sheet_date).sum(:spend_of_time)
   
    @attendance_single_chart = Attendance.select("status,start_date,sum(no_of_days)").where("start_date between ? and  ?",begin_start_month, end_of_month).group(:status,:start_date).sum(:no_of_days)
-end
+  
+    if current_user.role == "admin"
+      @employee_timesheets = EmployeeTimesheet.all
+    else 
+      @employee_timesheets = EmployeeTimesheet.all.where(user_id: current_user.id)
+    end
+    @project = Project.new
+    @projects = Project.all
+
+  end
+
 
   # GET /reports/1 or /reports/1.json
   def show

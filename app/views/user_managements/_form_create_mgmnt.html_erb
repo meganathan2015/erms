@@ -1,0 +1,71 @@
+<%= form_with(model: user_management, url: {controller: "user_managements", action: "add_data_user_mgmnt"}, method: "post", local: true) do |f| %>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"></h3>
+      </div>
+      <div class="modal-body">
+      <% if user_management.errors.any? %>
+      <div id="error_explanation">
+      <h2><%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
+    
+      <ul>
+      <% user_management.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+      </ul>
+      </div>
+      <% end %>
+    
+      <form>  
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Employee No</label>
+                <%= f.hidden_field :user_id, value: current_user.id %>
+                <%= f.text_field :emp_code, class: "form-control", placeholder: "Employee No", required: true %>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Mother Name</label>
+                <%= f.text_field :monther_name, class: "form-control", placeholder: "Mother Name", required: true %>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Date of birth</label>
+                <%= f.date_field :dob, class: "form-control", placeholder: "Date of birth", required: true %>
+              </div>
+              <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Gender</label>
+                  <%= f.select :gender, options_for_select(["Male", "Female"]), class: "form-control male_female_identifiers", id: "male_female_identifiers", required: true %>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Phone</label>
+                <%= f.text_field :phone, class: "form-control", placeholder: "Phone", required: true%>
+              </div>
+  
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Address</label>
+                <%= f.text_area :address, class: "form-control", placeholder: "Address", required: true %>
+              </div>
+
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Aadhar Card Details</label>
+                <%= f.file_field :aadhar_details, class: "form-control", placeholder: "Aadhar Card Details", required: true %>
+              </div>
+
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Pancard Details</label>
+                <%= f.file_field :pan_details, class: "form-control", placeholder: "Pancard Details", required: true %>
+              </div>
+
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Education Details</label>
+                <%= f.file_field :education_details, class: "form-control", placeholder: "Education Details", required: true %>
+              </div>
+              
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" id = "cancel_timesheet_btn">Close</button>
+        <%= f.submit "Create User", class: "btn btn-lg apply_leave_button", id: "create_timesheet_new_btn",data: { confirm: 'Are you sure?' }%>
+        </div>
+      </form>
+    
+      <% end %>
+    
+    
